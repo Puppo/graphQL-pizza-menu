@@ -13,11 +13,6 @@ const codegenMercuriusOptions: CodegenMercuriusOptions = {
   watchOptions: {
     enabled: process.env.NODE_ENV === "development",
   },
-  codegenConfig: {
-    scalars: {
-      DateTime: "Date",
-    },
-  },
 };
 
 export function runCodegen(app: FastifyInstance) {

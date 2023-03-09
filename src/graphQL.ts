@@ -1,3 +1,4 @@
+import fp from "fastify-plugin";
 import mercurius from "mercurius";
 import { loadSchema, runCodegen } from "./codegen";
 
@@ -5,7 +6,7 @@ import { FastifyInstance } from "fastify";
 import context from "./context";
 import resolvers from "./resolvers";
 
-export default async function (app: FastifyInstance) {
+async function graphQL(app: FastifyInstance, opts = {}) {
   const { schema } = loadSchema(app, resolvers);
 
   app.log.info({ schema }, "Schema loaded");
@@ -20,3 +21,5 @@ export default async function (app: FastifyInstance) {
 
   runCodegen(app);
 }
+
+export default fp(graphQL);

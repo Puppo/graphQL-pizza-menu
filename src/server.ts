@@ -1,12 +1,13 @@
-import type { FastifyInstance } from "fastify";
 import fastify from "fastify";
 
-import registerGraphQL from "./graphQL";
+const app = fastify({
+  logger: true,
+});
 
-export default async function (opts = {}): Promise<FastifyInstance> {
-  const app = fastify(opts);
+app.register(import("./app"));
 
-  registerGraphQL(app);
+const PORT = (process.env.PORT && parseInt(process.env.PORT, 10)) || 3000;
 
-  return app;
-}
+app.listen({ port: PORT }).then(() => {
+  console.log(`Server listening on port ${PORT}`);
+});
