@@ -1,9 +1,9 @@
-import { QueryResolvers } from "../generated";
+import { Queries } from "../utils";
 
-import hello from "./Hello";
+import * as hello from "./Hello";
 
 const Query = {
-  hello,
-} satisfies Required<QueryResolvers>;
+  ...hello,
+} satisfies Queries;
 
 export default Query;

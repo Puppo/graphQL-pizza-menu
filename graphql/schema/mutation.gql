@@ -1,3 +1,3 @@
 type Mutation {
-  hello(name: String!): String!
+  takeYourNumber: Int!
 }

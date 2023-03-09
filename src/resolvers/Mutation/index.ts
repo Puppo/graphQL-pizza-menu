@@ -1,9 +1,9 @@
-import { MutationResolvers } from "../generated";
+import { Mutations } from "../utils";
 
-import hello from "./Hello";
+import * as takeYourNumber from "./TakeNumber";
 
 const Mutation = {
-  hello,
-} satisfies Required<MutationResolvers>;
+  ...takeYourNumber,
+} satisfies Mutations;
 
 export default Mutation;

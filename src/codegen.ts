@@ -2,15 +2,21 @@ import { FastifyInstance } from "fastify";
 import { buildSchema } from "graphql";
 import { IResolvers, MercuriusContext } from "mercurius";
 import {
-  codegenMercurius,
   CodegenMercuriusOptions,
+  codegenMercurius,
   loadSchemaFiles,
 } from "mercurius-codegen";
 
 const codegenMercuriusOptions: CodegenMercuriusOptions = {
   targetPath: "./src/resolvers/generated.ts",
+  operationsGlob: "./graphql/operations/*.gql",
   watchOptions: {
     enabled: process.env.NODE_ENV === "development",
+  },
+  codegenConfig: {
+    scalars: {
+      DateTime: "Date",
+    },
   },
 };
 

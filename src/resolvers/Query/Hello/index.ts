@@ -1,6 +1,9 @@
-import { QueryResolvers } from "../../generated";
+import { Queries } from "../../utils";
 
-const hello: Required<QueryResolvers>["hello"] = _ =>
-  "Welcome to Tonino Pizza 🍕!";
+const hello: Queries["hello"] = _ =>
+  `Welcome to Tonino Pizza 🍕!`;
 
-export default hello;
+const helloByName: Queries["helloByName"] = (_, { name }) =>
+  `Hi ${name}, welcome to Tonino Pizza 🍕!`;
+
+export { hello, helloByName };
