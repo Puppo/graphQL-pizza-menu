@@ -1,0 +1,76 @@
+mutation createPizza($name: String!, $toppings: [ID!]!) {
+  createPizza(pizza: { name: $name, toppings: $toppings }) {
+    id
+    name
+    toppings {
+      id
+      name
+    }
+  }
+}
+
+mutation updatePizza($pizzaId: ID!, $name: String!, $toppings: [ID!]!) {
+  updatePizza(pizza: { id: $pizzaId, name: $name, toppings: $toppings }) {
+    id
+    name
+    toppings {
+      id
+      name
+    }
+  }
+}
+
+mutation deletePizza($pizzaId: ID!) {
+  deletePizza(id: $pizzaId) {
+    id
+    name
+    toppings {
+      id
+      name
+    }
+  }
+}
+
+mutation addToppingToPizza($pizzaId: ID!, $toppingId: ID!) {
+  addToppingToPizza(data: { pizzaId: $pizzaId, toppingId: $toppingId }) {
+    id
+    name
+    toppings {
+      id
+      name
+    }
+  }
+}
+
+mutation removeToppingFromPizza($pizzaId: ID!, $toppingId: ID!) {
+  removeToppingFromPizza(data: { pizzaId: $pizzaId, toppingId: $toppingId }) {
+    id
+    name
+    toppings {
+      id
+      name
+    }
+  }
+}
+
+query getPizza($pizzaId: ID!) {
+  getPizza(id: $pizzaId) {
+    id
+    name
+    toppings {
+      id
+      name
+    }
+  }
+}
+
+query getPizzas($offset: Int!, $limit: Int!) {
+  getPizzas(pagination: { offset: $offset, limit: $limit }) {
+    id
+    name
+    toppings {
+      id
+      name
+    }
+  }
+}

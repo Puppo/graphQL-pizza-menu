@@ -133,3 +133,6 @@ dist
 
 src/resolvers/generated.ts
 mercurius-schema.json
+
+docker-compose.*override.yml
+docker-compose.*override.yaml

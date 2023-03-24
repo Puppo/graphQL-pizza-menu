@@ -1,0 +1,8 @@
+input CreateToppingParams {
+  name: String!
+}
+
+input UpdateToppingParams {
+  id: ID!
+  name: String!
+}

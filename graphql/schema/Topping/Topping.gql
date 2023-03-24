@@ -1,0 +1,6 @@
+type Topping {
+  id: ID!
+  name: String!
+  createdAt: DateTime!
+  pizzas: [Pizza!]
+}

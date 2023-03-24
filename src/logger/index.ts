@@ -9,9 +9,13 @@ const envToLogger = {
     },
   },
   production: true,
-  test: false,
+  test: true,
 } as const;
 
-export function getLoggerOptions(env: keyof typeof envToLogger) {
+function getLoggerOptions(env: keyof typeof envToLogger) {
   return envToLogger[env];
 }
+
+export default getLoggerOptions(
+  process.env.NODE_ENV as keyof typeof envToLogger
+);

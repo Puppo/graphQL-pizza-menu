@@ -1,0 +1,42 @@
+mutation createTopping($name: String!) {
+  createTopping(topping: { name: $name }) {
+    id
+    name
+  }
+}
+
+mutation updateTopping($id: ID!, $name: String!) {
+  updateTopping(topping: { id: $id, name: $name }) {
+    id
+    name
+  }
+}
+
+mutation deleteTopping($id: ID!) {
+  deleteTopping(id: $id) {
+    id
+    name
+  }
+}
+
+query getTopping($toppingId: ID!) {
+  getTopping(id: $toppingId) {
+    id
+    name
+    pizzas {
+      id
+      name
+    }
+  }
+}
+
+query getToppings($offset: Int!, $limit: Int!) {
+  getToppings(pagination: { offset: $offset, limit: $limit }) {
+    id
+    name
+    pizzas {
+      id
+      name
+    }
+  }
+}

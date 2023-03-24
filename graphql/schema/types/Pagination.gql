@@ -1,4 +1,4 @@
-input Pagination {
+input PaginationInput {
   offset: Int!
   limit: Int!
 }

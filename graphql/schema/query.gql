@@ -1,4 +1,10 @@
 type Query {
   hello: String!
   helloByName(name: String!): String!
+
+  getToppings(pagination: PaginationInput!): [Topping!]!
+  getTopping(id: ID!): Topping
+
+  getPizzas(pagination: PaginationInput!): [Pizza!]!
+  getPizza(id: ID!): Pizza
 }

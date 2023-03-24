@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  postgres_db-test:
+    image: postgres:14.3-alpine
+    container_name: postgres_db-test
+    environment:
+      POSTGRES_DB: tonino-pizza-test
+      POSTGRES_USER: superuser
+      POSTGRES_PASSWORD: superpassword
+      POSTGRES_HOST_AUTH: trust
+    ports:
+      - 5433:5432

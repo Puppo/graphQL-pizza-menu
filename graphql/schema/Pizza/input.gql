@@ -1,0 +1,20 @@
+input CreatePizzaParams {
+  name: String!
+  toppings: [ID!]!
+}
+
+input UpdatePizzaParams {
+  id: ID!
+  name: String!
+  toppings: [ID!]!
+}
+
+input AddToppingToPizzaParams {
+  pizzaId: ID!
+  toppingId: ID!
+}
+
+input RemoveToppingFromPizzaParams {
+  pizzaId: ID!
+  toppingId: ID!
+}

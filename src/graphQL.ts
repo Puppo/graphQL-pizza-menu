@@ -4,6 +4,7 @@ import { loadSchema, runCodegen } from "./codegen";
 
 import { FastifyInstance } from "fastify";
 import context from "./context";
+import loaders from "./loaders";
 import resolvers from "./resolvers";
 
 async function graphQL(app: FastifyInstance, opts = {}) {
@@ -14,9 +15,9 @@ async function graphQL(app: FastifyInstance, opts = {}) {
   await app.register(mercurius, {
     context,
     schema,
-    // loaders,
+    loaders,
     resolvers,
-    graphiql: true,
+    graphiql: app.config.NODE_ENV === "development",
   });
 
   runCodegen(app);

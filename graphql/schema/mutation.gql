@@ -1,3 +1,13 @@
 type Mutation {
   takeYourNumber: Int!
+
+  createTopping(topping: CreateToppingParams!): Topping!
+  updateTopping(topping: UpdateToppingParams!): Topping
+  deleteTopping(id: ID!): Topping
+
+  createPizza(pizza: CreatePizzaParams!): Pizza!
+  updatePizza(pizza: UpdatePizzaParams!): Pizza
+  deletePizza(id: ID!): Pizza
+  addToppingToPizza(data: AddToppingToPizzaParams!): Pizza
+  removeToppingFromPizza(data: RemoveToppingFromPizzaParams!): Pizza
 }

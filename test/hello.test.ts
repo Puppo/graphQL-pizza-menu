@@ -1,4 +1,4 @@
-import fastify, { FastifyInstance } from "fastify";
+import { FastifyInstance } from "fastify";
 import { createMercuriusTestClient } from "mercurius-integration-testing";
 import tap from "tap";
 
@@ -7,14 +7,15 @@ import {
   welcomeByNameQueryVariables,
   welcomeDocument,
 } from "../src/resolvers/generated";
+import { createTestApp } from "./util/createApp";
 
 let app: FastifyInstance;
 let client: ReturnType<typeof createMercuriusTestClient>;
 
 tap.before(async () => {
-  app = fastify();
-  await app.register(import("../src/app"));
-  client = createMercuriusTestClient(app);
+  const testApp = await createTestApp();
+  app = testApp.app;
+  client = testApp.client;
 });
 
 tap.teardown(async () => {

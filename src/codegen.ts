@@ -15,8 +15,12 @@ const codegenMercuriusOptions: CodegenMercuriusOptions = {
   },
 };
 
-export function runCodegen(app: FastifyInstance) {
-  codegenMercurius(app, codegenMercuriusOptions).catch(console.error);
+export async function runCodegen(app: FastifyInstance) {
+  await codegenMercurius(app, codegenMercuriusOptions).catch(console.error);
+
+  if (process.env.IS_CODE_GEN) {
+    process.exit(0);
+  }
 }
 
 export function loadSchema(
@@ -30,7 +34,7 @@ export function loadSchema(
         app.graphql.replaceSchema(buildSchema(schema.join("\n")));
         app.graphql.defineResolvers(resolvers);
 
-        runCodegen(app);
+        await runCodegen(app);
       },
     },
   });
