@@ -1,10 +1,11 @@
 import mercurius from "mercurius";
 import { Mutations } from "../../utils";
+import { createPizzaEvent } from "../../utils/pizzaEvent";
 
 const { ErrorWithProps } = mercurius;
 
 export const addToppingToPizza: Required<Mutations>["addToppingToPizza"] =
-  async (_, { data: { pizzaId, toppingId } }, { app: { log, dbContext } }) => {
+  async (_, { data: { pizzaId, toppingId } }, { app: { log, dbContext }, pubsub }) => {
     log.info({ pizzaId, toppingId }, "Add Topping To Pizza");
     const pizza = await dbContext.pizza.findUnique({ where: { id: pizzaId } });
     const errors: Error[] = [];
@@ -59,6 +60,8 @@ export const addToppingToPizza: Required<Mutations>["addToppingToPizza"] =
         pizza: true,
       },
     });
+
+    pubsub.publish(createPizzaEvent('PIZZA_UPDATED', pizzaId));
 
     log.info({ pizzaId, toppingId }, "Add Topping To Pizza completed");
 

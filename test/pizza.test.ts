@@ -7,6 +7,9 @@ import {
   addToppingToPizzaDocument,
   getPizzaDocument,
   getPizzasDocument,
+  pizzaCreatedNotificationsDocument,
+  pizzaDeletedNotificationsDocument,
+  pizzaUpdatedNotificationsDocument,
   removeToppingFromPizzaDocument,
   updatePizzaDocument,
 } from "../src/resolvers/generated";
@@ -18,13 +21,13 @@ import { uuidV4Regex } from "./util/uuid";
 let app: FastifyInstance;
 let client: ReturnType<typeof createMercuriusTestClient>;
 
-tap.before(async () => {
+tap.beforeEach(async () => {
   const testApp = await createTestApp();
   app = testApp.app;
   client = testApp.client;
 });
 
-tap.teardown(async () => {
+tap.afterEach(async () => {
   await app.close();
 });
 
@@ -60,14 +63,24 @@ async function createDefaultPizza() {
 }
 
 tap.test("createPizza", async t => {
-  const { response, toppings } = await createDefaultPizza();
-  t.match(response.data.createPizza.id, uuidV4Regex);
-  t.equal(response.data.createPizza.name, defaultPizzaName);
-  t.same(
-    response.data.createPizza.toppings.map(({ id }) => id),
-    toppings
-  );
-  t.equal(response.errors, undefined);
+  await new Promise<void>(async resolve => {
+    await client.subscribe({
+      query: pizzaCreatedNotificationsDocument,
+      onData: response => {
+        t.match(response.data?.pizzaCreatedNotifications?.id, uuidV4Regex);
+        resolve();
+      },
+    });
+
+    const { response, toppings } = await createDefaultPizza();
+    t.match(response.data.createPizza.id, uuidV4Regex);
+    t.equal(response.data.createPizza.name, defaultPizzaName);
+    t.same(
+      response.data.createPizza.toppings.map(({ id }) => id),
+      toppings
+    );
+    t.equal(response.errors, undefined);
+  });
 });
 
 tap.test("updatePizza", async t => {
@@ -88,21 +101,31 @@ tap.test("updatePizza", async t => {
   const newPizzaName = "pizzaTestUpdated";
   const newToppings = toppings.slice(0, toppings.length - 2).concat(toppingId4);
 
-  const response = await client.mutate(updatePizzaDocument, {
-    variables: {
-      pizzaId,
-      name: newPizzaName,
-      toppings: newToppings,
-    },
-  });
+  await new Promise<void>(async resolve => {
+    await client.subscribe({
+      query: pizzaUpdatedNotificationsDocument,
+      onData: response => {
+        t.equal(response.data?.pizzaUpdatedNotifications?.id, pizzaId);
+        resolve();
+      },
+    });
 
-  t.equal(response.data.updatePizza?.id, pizzaId);
-  t.equal(response.data.updatePizza?.name, newPizzaName);
-  t.same(
-    response.data.updatePizza?.toppings.map(({ id }) => id),
-    newToppings
-  );
-  t.equal(response.errors, undefined);
+    const response = await client.mutate(updatePizzaDocument, {
+      variables: {
+        pizzaId,
+        name: newPizzaName,
+        toppings: newToppings,
+      },
+    });
+
+    t.equal(response.data.updatePizza?.id, pizzaId);
+    t.equal(response.data.updatePizza?.name, newPizzaName);
+    t.same(
+      response.data.updatePizza?.toppings.map(({ id }) => id),
+      newToppings
+    );
+    t.equal(response.errors, undefined);
+  });
 });
 
 tap.test("deletePizza", async t => {
@@ -114,11 +137,21 @@ tap.test("deletePizza", async t => {
     },
   } = await createDefaultPizza();
 
-  const response = await deletePizza(client, pizzaId);
+  await new Promise<void>(async resolve => {
+    await client.subscribe({
+      query: pizzaDeletedNotificationsDocument,
+      onData: response => {
+        t.equal(response.data?.pizzaDeletedNotifications?.id, pizzaId);
+        resolve();
+      },
+    });
 
-  t.ok(response.data.deletePizza);
-  t.equal(response.data.deletePizza?.name, defaultPizzaName);
-  t.equal(response.errors, undefined);
+    const response = await deletePizza(client, pizzaId);
+
+    t.ok(response.data.deletePizza);
+    t.equal(response.data.deletePizza?.name, defaultPizzaName);
+    t.equal(response.errors, undefined);
+  });
 });
 
 tap.test("addToppingToPizza", async t => {

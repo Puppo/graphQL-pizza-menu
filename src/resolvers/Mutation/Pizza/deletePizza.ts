@@ -1,9 +1,12 @@
 import { Mutations } from "../../utils";
+import { createPizzaEvent } from "../../utils/pizzaEvent";
+
+
 
 export const deletePizza: Required<Mutations>["deletePizza"] = async (
   _,
   { id },
-  { app: { log, dbContext } }
+  { app: { log, dbContext }, pubsub }
 ) => {
   log.info({ id }, "Deleting pizza");
 
@@ -11,13 +14,6 @@ export const deletePizza: Required<Mutations>["deletePizza"] = async (
     const pizza = await t.pizza.findUnique({
       where: {
         id,
-      },
-      include: {
-        recipes: {
-          include: {
-            topping: true,
-          },
-        },
       },
     });
 
@@ -35,6 +31,8 @@ export const deletePizza: Required<Mutations>["deletePizza"] = async (
 
     return pizza;
   });
+
+  pubsub.publish(createPizzaEvent("PIZZA_DELETED", id));
 
   log.info({ id }, "Pizza deleted");
 

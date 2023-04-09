@@ -74,3 +74,21 @@ query getPizzas($offset: Int!, $limit: Int!) {
     }
   }
 }
+
+subscription pizzaCreatedNotifications {
+  pizzaCreatedNotifications {
+    id
+  }
+}
+
+subscription pizzaUpdatedNotifications {
+  pizzaUpdatedNotifications {
+    id
+  }
+}
+
+subscription pizzaDeletedNotifications {
+  pizzaDeletedNotifications {
+    id
+  }
+}

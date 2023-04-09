@@ -1,0 +1,9 @@
+type Subscription {
+  toppingCreatedNotifications: ToppingNotification!
+  toppingUpdatedNotifications: ToppingNotification!
+  toppingDeletedNotifications: ToppingNotification!
+
+  pizzaCreatedNotifications: PizzaNotification!
+  pizzaUpdatedNotifications: PizzaNotification!
+  pizzaDeletedNotifications: PizzaNotification!
+}

@@ -1,9 +1,10 @@
 import { Mutations } from "../../utils";
+import { createToppingEvent } from "../../utils/toppingEvent";
 
 export const createTopping: Required<Mutations>["createTopping"] = async (
   _,
   { topping: { name } },
-  { app: { log, dbContext } }
+  { app: { log, dbContext }, pubsub }
 ) => {
   log.info({ name }, "Creating topping");
 
@@ -12,6 +13,8 @@ export const createTopping: Required<Mutations>["createTopping"] = async (
       name,
     },
   });
+
+  await pubsub.publish(createToppingEvent("TOPPING_CREATED", newTopping.id));
 
   log.info({ name }, "Topping created");
 

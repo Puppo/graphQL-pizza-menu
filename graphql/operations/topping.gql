@@ -40,3 +40,21 @@ query getToppings($offset: Int!, $limit: Int!) {
     }
   }
 }
+
+subscription toppingCreatedNotifications {
+  toppingCreatedNotifications {
+    id
+  }
+}
+
+subscription toppingUpdatedNotifications {
+  toppingUpdatedNotifications {
+    id
+  }
+}
+
+subscription toppingDeletedNotifications {
+  toppingDeletedNotifications {
+    id
+  }
+}

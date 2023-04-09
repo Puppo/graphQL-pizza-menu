@@ -17,7 +17,8 @@ async function graphQL(app: FastifyInstance, opts = {}) {
     schema,
     loaders,
     resolvers,
-    graphiql: app.config.NODE_ENV === "development",
+    subscription: true,
+    graphiql: true, // app.config.NODE_ENV === "development",
   });
 
   runCodegen(app);

@@ -1,9 +1,10 @@
 import { Mutations } from "../../utils";
+import { createPizzaEvent } from "../../utils/pizzaEvent";
 
 export const createPizza: Required<Mutations>["createPizza"] = async (
   _,
   { pizza: { name, toppings } },
-  { app: { log, dbContext } }
+  { app: { log, dbContext }, pubsub }
 ) => {
   log.info({ name }, "Creating pizza");
 
@@ -17,6 +18,8 @@ export const createPizza: Required<Mutations>["createPizza"] = async (
       },
     },
   });
+
+  await pubsub.publish(createPizzaEvent("PIZZA_CREATED", newPizza.id));
 
   log.info({ name }, "Pizza created");
 
