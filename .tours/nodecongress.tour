@@ -1,0 +1,57 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "NodeCongress",
+  "steps": [
+    {
+      "file": "prisma/schema.prisma",
+      "description": "Prisma Schema\n\nnpx prisma (generate | migrate dev | migrate deploy)",
+      "line": 4
+    },
+    {
+      "file": "graphql/schema/mutation.gql",
+      "description": "Mutations",
+      "line": 1
+    },
+    {
+      "file": "graphql/schema/query.gql",
+      "description": "Queries",
+      "line": 1
+    },
+    {
+      "file": "graphql/schema/subscription.gql",
+      "description": "Subscription",
+      "line": 1
+    },
+    {
+      "file": "src/app.ts",
+      "description": "load plugings like Prisma",
+      "line": 6
+    },
+    {
+      "file": "src/graphQL.ts",
+      "description": "Load Mercurius",
+      "line": 10
+    },
+    {
+      "file": "src/codegen.ts",
+      "description": "convert .gql to generated.ts",
+      "line": 18
+    },
+    {
+      "file": "src/resolvers/index.ts",
+      "description": "Developers must take care about these parts for the business",
+      "line": 7
+    },
+    {
+      "file": "graphql/operations/hello.gql",
+      "description": "Operations are used for testing",
+      "line": 1
+    },
+    {
+      "file": "test/hello.test.ts",
+      "description": "testing example",
+      "line": 26
+    }
+  ],
+  "ref": "main"
+}
